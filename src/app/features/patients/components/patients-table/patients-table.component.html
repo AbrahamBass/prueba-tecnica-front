@@ -1,0 +1,166 @@
+<p-card>
+  <div class="grid p-fluid mb-4 mt-1 px-3 align-items-center">
+    <div class="col-12 lg:col-4 md:col-4">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search text-500"></i>
+        <input
+          type="text"
+          pInputText
+          placeholder="Nombre o apellido..."
+          [ngModel]="nameValue"
+          (ngModelChange)="nameChange.emit($any($event))"
+        />
+      </span>
+    </div>
+
+    <div class="col-12 lg:col-4 md:col-4">
+      <div class="p-inputgroup">
+        <span
+          class="p-inputgroup-addon bg-blue-50 border-blue-100 text-blue-600"
+        >
+          <i class="pi pi-id-card"></i>
+        </span>
+        <input
+          type="text"
+          pInputText
+          placeholder="Documento exacto..."
+          [ngModel]="docValue"
+          (ngModelChange)="docChange.emit($event)"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 lg:col-4 md:col-4 flex gap-2">
+      <button
+        pButton
+        type="button"
+        [disabled]="loading"
+        [loading]="loading"
+        label="Buscar"
+        icon="pi pi-search"
+        class="p-button-primary border-round-lg flex-grow-1"
+        (click)="onFilter.emit()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Limpiar"
+        icon="pi pi-filter-slash"
+        class="p-button-outlined p-button-secondary border-round-lg flex-grow-1"
+        (click)="clearFilters.emit()"
+      ></button>
+    </div>
+  </div>
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="patients"
+    [lazy]="true"
+    (onLazyLoad)="lazyLoad.emit($event)"
+    [paginator]="true"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th
+          field="documentNumber"
+          class="bg-blue-50 text-blue-800"
+          style="width: 15%"
+        >
+          Documento
+        </th>
+        <th
+          field="firstName"
+          class="bg-blue-50 text-blue-800"
+          style="width: 25%"
+        >
+          Nombre Completo
+        </th>
+        <th field="email" class="bg-blue-50 text-blue-800" style="width: 20%">
+          Email
+        </th>
+        <th
+          field="phoneNumber"
+          class="bg-blue-50 text-blue-800"
+          style="width: 15%"
+        >
+          Teléfono
+        </th>
+        <th
+          field="createdAt"
+          class="bg-blue-50 text-blue-800"
+          style="width: 12%"
+        >
+          Creado
+        </th>
+        <th
+          class="bg-blue-50 text-blue-800"
+          style="width: 13%; text-align: center"
+        >
+          Acciones
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-patient>
+      <tr>
+        <td>
+          <span class="font-bold text-700">{{ patient.documentNumber }}</span>
+        </td>
+        <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+        <td>{{ patient.email || "No Registra" }}</td>
+        <td>{{ patient.phoneNumber || "No Registra" }}</td>
+        <td>{{ patient.createdAt | date: "dd/MM/yyyy" }}</td>
+        <td class="text-center">
+          <div class="flex justify-content-center gap-2">
+            <button
+              pButton
+              pRipple
+              icon="pi pi-eye"
+              class="p-button-rounded p-button-text p-button-info"
+              pTooltip="Ver Detalle"
+              tooltipPosition="bottom"
+              (click)="view.emit(patient)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-success"
+              pTooltip="Editar Paciente"
+              tooltipPosition="bottom"
+              (click)="edit.emit(patient)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              pTooltip="Eliminar"
+              tooltipPosition="bottom"
+              (click)="delete.emit(patient.patientId)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center p-5">
+          <i class="pi pi-search text-6xl text-300 mb-3"></i>
+          <div class="text-xl font-medium text-600">
+            No se encontraron pacientes que coincidan.
+          </div>
+          <div class="text-500 mt-2">
+            Intenta ajustar los filtros de búsqueda.
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

@@ -1,0 +1,107 @@
+<div class="p-3">
+  <div
+    class="flex align-items-center gap-3 mb-4 p-3 border-round-xl bg-blue-50"
+  >
+    <div>
+      <h2 class="m-0 text-900">
+        {{ patient?.firstName }} {{ patient?.lastName }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col-12 md:col-6">
+      <div class="p-3 border-1 border-200 border-round-lg shadow-sm mb-3">
+        <div class="text-500 font-medium mb-2">
+          <i class="pi pi-id-card mr-2"></i>Documento
+        </div>
+        <div class="text-900 font-bold text-lg">
+          {{ patient?.documentNumber }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="p-3 border-1 border-200 border-round-lg shadow-sm mb-3">
+        <div class="text-500 font-medium mb-2">
+          <i class="pi pi-calendar mr-2"></i>Fecha de Registro
+        </div>
+        <div class="text-900 font-bold text-lg">
+          {{ patient?.createdAt | date: "dd/MM/yyyy" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="p-3 border-1 border-200 border-round-lg shadow-sm">
+        <div class="text-500 font-medium mb-2">
+          <i class="pi pi-envelope mr-2"></i>Correo Electrónico
+        </div>
+        <div class="text-900">{{ patient?.email || "No registrado" }}</div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <div class="p-3 border-1 border-200 border-round-lg shadow-sm">
+        <div class="text-500 font-medium mb-2">
+          <i class="pi pi-phone mr-2"></i>Teléfono
+        </div>
+        <div class="text-900">
+          {{ patient?.phoneNumber || "No registrado" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="flex align-items-center mb-3">
+      <i class="pi pi-calendar-plus text-blue-500 mr-2 text-xl"></i>
+      <h3 class="m-0 text-800">Citas Asociadas</h3>
+    </div>
+
+    <p-table
+      [value]="[]"
+      responsiveLayout="scroll"
+      styleClass="p-datatable-sm p-datatable-striped border-1 border-100 border-round-lg overflow-hidden"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Fecha y Hora</th>
+          <th>Especialista</th>
+          <th>Estado</th>
+          <th>Motivo</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center p-4 bg-gray-50">
+            <div class="flex flex-column align-items-center">
+              <i
+                class="pi pi-info-circle text-400 mb-2"
+                style="font-size: 2rem"
+              ></i>
+              <span class="text-600 font-medium"
+                >No hay citas registradas para este paciente.</span
+              >
+              <small class="text-400"
+                >La funcionalidad de gestión de citas no está disponible en este
+                módulo.</small
+              >
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="flex justify-content-end mt-4">
+    <button
+      pButton
+      label="Cerrar"
+      icon="pi pi-times"
+      class="p-button-text p-button-secondary"
+      (click)="close()"
+    ></button>
+  </div>
+</div>
