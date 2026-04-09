@@ -1,27 +1,185 @@
-# PruebaTecnica
+# Gestión de Pacientes - Prueba Técnica
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Este proyecto corresponde a una prueba técnica donde se desarrolló una aplicación frontend para la gestión de pacientes. Permite listar, crear, editar, eliminar y ver el detalle de pacientes consumiendo una API.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Instalación y ejecución
 
-## Code scaffolding
+1. Clonar el repositorio:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+git clone https://github.com/AbrahamBass/prueba-tecnica-front.git
 
-## Build
+2. Entrar al proyecto:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+cd prueba-tecnica-front
 
-## Running unit tests
+3. Instalar dependencias:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+npm install
 
-## Running end-to-end tests
+4. Ejecutar la aplicación:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+ng serve
 
-## Further help
+Abrir en el navegador:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+http://localhost:4200
+
+---
+
+## Funcionalidades
+
+* Listado de pacientes con paginación
+* Filtros por nombre (contiene) y documento (exacto)
+* Crear paciente
+* Editar paciente
+* Eliminar paciente con confirmación
+* Ver detalle de paciente
+
+Extras:
+
+* Exportar listado a CSV
+* Generar reporte por fecha de creación
+
+---
+
+## Decisiones de implementación
+
+Se utilizó Angular 16 junto con PrimeNG 16 para la construcción de la interfaz.
+
+El proyecto se desarrolló usando un solo módulo, ya que era un requerimiento de la prueba.
+
+Se intentó aplicar una organización inspirada en arquitectura limpia mediante el uso de features. En este caso solo existe el feature de pacientes.
+
+Dentro del feature:
+
+* Se organizó por page (componente principal) y componentes hijos
+* El componente padre contiene la mayor parte de la lógica
+* Los componentes hijos (como modales) manejan su propia lógica interna
+
+También dentro del mismo feature se encuentra el servicio correspondiente, encargado de consumir la API.
+
+---
+
+## Organización del proyecto
+
+* features/patients
+  Contiene toda la lógica del módulo de pacientes (componentes, servicios, modelos)
+
+* core
+  Contiene elementos globales y reutilizables como:
+
+  * Interceptor de errores
+  * Constantes
+  * Servicio global de manejo de errores
+
+Esta estructura se eligió para mantener el proyecto organizado y facilitar la escalabilidad en caso de agregar nuevos módulos.
+
+---
+
+## Librerías utilizadas
+
+* PrimeNG → componentes UI
+* xlsx → generación de archivos Excel
+* Jasmine + Karma → pruebas unitarias
+
+---
+
+## Consumo de API
+
+Se implementó un servicio para manejar todas las operaciones relacionadas con pacientes:
+
+* Listar
+* Crear
+* Actualizar
+* Eliminar
+* Reportes
+
+Se centralizó la lógica de consumo para mantener el código más limpio.
+
+También se implementó un interceptor para el manejo global de errores.
+
+---
+
+## UI / Comportamiento
+
+* Estados de carga en acciones importantes
+* Botones deshabilitados mientras se procesan acciones
+* Confirmación antes de eliminar
+* Validaciones en formularios
+* Mensajes de error cuando ocurre algún problema
+
+---
+
+## Pruebas unitarias
+
+Se implementaron pruebas básicas usando Jasmine y Karma.
+
+Se validan escenarios como:
+
+* Creación de componentes
+* Limpieza de filtros
+* Paginación
+* Acciones principales
+
+Ejecutar pruebas:
+
+ng test
+
+---
+
+## 🐳 Ejecución con Docker
+
+También puedes ejecutar el frontend usando Docker sin necesidad de instalar Node o Angular.
+
+Imagen disponible en Docker Hub:
+
+docker.io/abrahambass/angular-prueba-tecnica
+
+### Ejecutar solo el frontend
+
+docker pull abrahambass/angular-prueba-tecnica
+docker run -p 4200:4200 abrahambass/angular-prueba-tecnica
+
+Abrir en:
+
+http://localhost:4200
+
+---
+
+### Ejecutar todo el entorno (recomendado)
+
+Se dejó un repositorio con docker-compose que levanta:
+
+* Frontend
+* Backend
+* Base de datos
+
+Repositorio:
+
+https://github.com/AbrahamBass/prueba-tecnica-compose.git
+
+Pasos:
+
+1. Clonar:
+
+git clone https://github.com/AbrahamBass/prueba-tecnica-compose.git
+
+2. Entrar:
+
+cd prueba-tecnica-compose
+
+3. Ejecutar:
+
+docker-compose up
+
+Con esto todo queda funcionando automáticamente sin configuración adicional.
+
+---
+
+## Consideraciones finales
+
+Se buscó mantener el proyecto lo más claro y organizado posible, aplicando buenas prácticas sin sobrecomplicar la solución.
+
+La estructura permite escalar fácilmente agregando nuevos módulos en el futuro manteniendo el mismo enfoque por features.
