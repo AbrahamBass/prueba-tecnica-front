@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../models/patient.model';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -18,9 +18,11 @@ import { COLS } from 'src/app/core/constans/const';
 export class PatientsPageComponent {
   ref: DynamicDialogRef | undefined;
 
+  isMobile = window.innerWidth < 768;
+
   loadingTable = signal(false);
   loadingCSV = signal(false);
-  
+
   totalRecords = signal(0);
   patients = signal<Patient[]>([]);
 
@@ -56,7 +58,7 @@ export class PatientsPageComponent {
   showCreatePatient() {
     this.ref = this.dialogService.open(PatientCreateComponent, {
       header: 'Registrar Nuevo Paciente',
-      width: '50vw',
+      width: this.isMobile ? '95vw' : '75vw',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,
@@ -79,7 +81,7 @@ export class PatientsPageComponent {
   showReportModal() {
     this.dialogService.open(PatientReportComponent, {
       header: 'Generar Reporte de Pacientes',
-      width: '400px',
+       width: this.isMobile ? '95vw' : '30vw',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -113,7 +115,7 @@ export class PatientsPageComponent {
   openDetail(event: Patient) {
     this.ref = this.dialogService.open(PatientDetailsComponent, {
       header: 'Detalles del Paciente',
-      width: '50vw',
+       width: this.isMobile ? '95vw' : '75vw',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,
@@ -125,7 +127,7 @@ export class PatientsPageComponent {
   openEdit(event: Patient) {
     this.ref = this.dialogService.open(PatientEditComponent, {
       header: 'Editar Paciente',
-      width: '50vw',
+       width: this.isMobile ? '95vw' : '75vw',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,
